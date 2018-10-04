@@ -18,7 +18,10 @@ class ViewController: UIViewController {
         
         do {
             /// 获取html文件
-            let htmlString = try String.init(contentsOf: URL.init(string: "http://www.baidu.com")!)
+            var htmlString = try String.init(contentsOf: URL.init(string: "http://www.baidu.com")!)
+            
+            /// 过滤XML非法字符
+            htmlString = htmlString.xmlLegitimateString()
             
             /// html文档
             let html = HTMLDocument.init(htmlString)
