@@ -15,7 +15,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         do {
-            let htmlString = try String.init(contentsOf: URL.init(string: "http://www.baidu.com")!)
+            var htmlString = try String.init(contentsOf: URL.init(string: "http://www.baidu.com")!)
+            htmlString = htmlString.xmlLegitimateString()
             let html = HTMLDocument.init(htmlString)
             print(html.xmlString())
             

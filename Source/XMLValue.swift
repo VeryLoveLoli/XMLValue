@@ -9,6 +9,21 @@
 import Foundation
 import JSONValue
 
+// MARK:- String
+
+extension String {
+    
+    /**
+     XML合法字符串
+     */
+    func xmlLegitimateString() -> String {
+        
+        let regular = try! NSRegularExpression.init(pattern: "[^\u{09}+\u{0a}+\u{0d}+[\u{20}-\u{d7ff}]+[\u{e000}-\u{fffd}]+[\u{10000}-\u{10ffff}]]" , options: [])
+        let xmlString = regular.stringByReplacingMatches(in: self, options: [], range: NSRange.init(location: 0, length: self.count), withTemplate: "")
+        return xmlString
+    }
+}
+
 // MARK: - XML数据取值
 
 /**
