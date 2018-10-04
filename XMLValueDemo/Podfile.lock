@@ -1,0 +1,20 @@
+PODS:
+  - JSONValue (0.0.3)
+  - XMLValue (0.0.1):
+    - JSONValue (= 0.0.3)
+
+DEPENDENCIES:
+  - XMLValue
+
+SPEC REPOS:
+  https://github.com/VeryLoveLoli/CocoaPodsSource.git:
+    - JSONValue
+    - XMLValue
+
+SPEC CHECKSUMS:
+  JSONValue: 0007b6a326b2c27027681fc8c5df47b2e829a053
+  XMLValue: bb017cd5d94f3c54bf42cb1fbf616e9a5d9c7f44
+
+PODFILE CHECKSUM: f0c67c20c010529f5f2112e138fbd899b3f83b00
+
+COCOAPODS: 1.6.0.beta.1

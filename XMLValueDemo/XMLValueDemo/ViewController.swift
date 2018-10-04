@@ -1,42 +1,21 @@
-# XMLValue
+//
+//  ViewController.swift
+//  XMLValueDemo
+//
+//  Created by 韦烽传 on 2018/10/4.
+//  Copyright © 2018年 韦烽传. All rights reserved.
+//
 
-一个`Swift`语言简易的`XML`取值
-
-1. [Integration](#Integration)
-2. [Usage](#Usage)
-
-## Integration
-
-### CocoaPods
-
-```swift
-source 'https://github.com/VeryLoveLoli/CocoaPodsSource.git'
-platform :ios, '10.0'
-use_frameworks!
-
-target 'MyApp' do
-
-    pod 'XMLValue', '0.0.1'
-end
-
-```
-
-##### 更新CocoaPods
-	pod repo add CocoaPodsSource https://github.com/VeryLoveLoli/CocoaPodsSource.git
-	pod repo update
-	pod install
-	pod update
-
-## Usage
-
-### Initialization
-
-```swift
+import UIKit
 import JSONValue
 import XMLValue
-```
 
-```swift
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
+        
         do {
             /// 获取html文件
             let htmlString = try String.init(contentsOf: URL.init(string: "http://www.baidu.com")!)
@@ -53,7 +32,7 @@ import XMLValue
                 
                 /// JSON值 XML方式取值
                 let xml = XMLValue.init(json)
-                /// 获取第一 head 节点
+                /// 获取第一个 head 节点
                 let head = xml.getOne("head")
                 /// 输出 head 节点 第一个 子节点的属性
                 print(head.elements[0].attributes)
@@ -63,4 +42,8 @@ import XMLValue
             /// 错误信息
             print(error)
         }
-```
+    }
+
+
+}
+
