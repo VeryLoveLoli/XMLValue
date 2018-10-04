@@ -134,6 +134,6 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
 
   spec.xcconfig = { "HEADER_SEARCH_PATHS" => "${SDK_DIR}/usr/include/libxml2" }
-  spec.dependency "JSONValue", "~> 0.0.3"
+  spec.dependency "JSONValue", "0.0.3"
 
 end
