@@ -47,14 +47,18 @@ public class XMLValue {
     /**
      获取节点
      
-     - parameter    name:           节点名称
-     - parameter    attributes:     节点属性
+     - parameter    name:                   节点名称
+     - parameter    attributes:             节点属性
+     - parameter    isRecursive:            是否递归已匹配的节点
+     - parameter    max:                    最大匹配节点数量
      
      - return:      返回匹配节点数组
      */
-    public func get(_ name: String, attributes: [String: Any]? = nil) -> [XMLValue] {
+    public func get(_ name: String, attributes: [String: Any]? = nil, isRecursive: Bool = false, max: Int = Int.max) -> [XMLValue] {
         
         var items: [XMLValue] = []
+        
+        var isMatching = false
         
         if self.name.string == name {
             
@@ -73,18 +77,30 @@ public class XMLValue {
                 
                 if bool {
                     
+                    isMatching = true
                     items.append(XMLValue(self.JSON))
                 }
             }
             else {
                 
+                isMatching = true
                 items.append(XMLValue(self.JSON))
             }
         }
         
+        if isMatching && !isRecursive {
+            
+            return items
+        }
+        
         for item in self.JSON[JSONXMLKEY.elements.string].array {
             
-            items += XMLValue.init(item).get(name, attributes: attributes)
+            if items.count >= max {
+                
+                break
+            }
+            
+            items += XMLValue.init(item).get(name, attributes: attributes, isRecursive: isRecursive, max: max - items.count)
         }
         
         return items
@@ -100,8 +116,14 @@ public class XMLValue {
      */
     public func getOne(_ name: String, attributes: [String: Any]? = nil) -> XMLValue {
         
-        let items = self.get(name, attributes: attributes)
+        let items = self.get(name, attributes: attributes, isRecursive: false, max: 1)
         return items.count > 0 ? items[0] : XMLValue.init(JSONValue())
+    }
+    
+    /// 节点
+    public var node: JSONValue {
+        
+        return JSON
     }
     
     /// 节点名称
