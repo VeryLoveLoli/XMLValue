@@ -20,12 +20,10 @@ class ViewController: UIViewController {
             let html = HTMLDocument.init(htmlString)
             print(html.xmlString())
             
-            JSONXMLParser.xml(html.xmlData()) { (json, error) in
-                
-                let xml = XMLValue.init(json)
-                let head = xml.getOne("head")
-                print(head.elements[0].attributes)
-            }
+            let xmljson = try JSONXMLParser.xml(html.xmlData())
+            let xml = XMLValue.init(xmljson)
+            let head = xml.getOne("head")
+            head.elements[0].attributes.formatPrint()
             
         } catch  {
             print(error)

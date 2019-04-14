@@ -219,9 +219,6 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
     
     // MARK: Parameter
     
-    /// 闭包
-    var block: (JSONValue, Error?)->Void = {_,_ in }
-    
     /// 节点数组
     var keys: [String] = []
     /// JSON 数据
@@ -229,33 +226,41 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
     /// 当前节点路径
     var elementPath: [Any] = []
     
+    /// 错误信息
+    var error: Error?
+    
     // MARK: Class public func
     
     /**
      解析XML
      
      - parameter    string:     XML字符串
-     - parameter    block:      解析结果
      */
-    public class func xml(_ string: String, block: @escaping (JSONValue, Error?)->Void) {
+    public class func xml(_ string: String) throws -> JSONValue {
         
-        self.xml(string.data(using: .utf8) ?? Data(), block: block)
+        return try self.xml(string.data(using: .utf8) ?? Data())
     }
     
     /**
      解析XML
      
      - parameter    data:       XML数据
-     - parameter    block:      解析结果
      */
-    public class func xml(_ data: Data, block: @escaping (JSONValue, Error?)->Void) {
+    public class func xml(_ data: Data) throws -> JSONValue {
         
         let xml = JSONXMLParser.init()
-        xml.block = block
         
         let xmlParser = XMLParser.init(data: data)
         xmlParser.delegate = xml
         xmlParser.parse()
+        xmlParser.delegate = nil
+        
+        if let e = xml.error {
+            
+            throw e
+        }
+        
+        return xml.JSON
     }
     
     // MARK: XMLParserDelegate
@@ -337,7 +342,16 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
         
         if filterString.count > 0 {
             
-            JSON[elementPath + [JSONXMLKEY.content.string]] = JSONValue(JSON[elementPath + [JSONXMLKEY.content.string]].string + content)
+            if JSON[elementPath + [JSONXMLKEY.elements.string]].array.count > 0 {
+                
+                let path = createNextPath()
+                JSON[path + [JSONXMLKEY.name.string]] = JSONValue("content")
+                JSON[path + [JSONXMLKEY.content.string]] = JSONValue(content)
+            }
+            else {
+                
+                JSON[elementPath + [JSONXMLKEY.content.string]] = JSONValue(JSON[elementPath + [JSONXMLKEY.content.string]].string + content)
+            }
         }
     }
     
@@ -410,7 +424,7 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
      */
     public func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
         
-        block(JSONValue(), parseError)
+        error = parseError
     }
     
     /**
@@ -418,7 +432,7 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
      */
     public func parser(_ parser: XMLParser, validationErrorOccurred validationError: Error) {
         
-        block(JSONValue(), validationError)
+        error = validationError
     }
     
     /**
@@ -443,7 +457,6 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
      */
     public func parserDidEndDocument(_ parser: XMLParser) {
         
-        block(JSON, nil)
     }
     
     // MARK: Event

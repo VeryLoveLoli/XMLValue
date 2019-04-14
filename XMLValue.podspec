@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "XMLValue"
-  spec.version      = "0.0.4"
+  spec.version      = "0.0.5"
   spec.summary      = "swift XML"
 
   # This description is used to generate tags and improve search results.
@@ -66,7 +66,7 @@ Pod::Spec.new do |spec|
 
   # spec.platform     = :ios
   spec.platform     = :ios, "10.0"
-  spec.swift_version = "4.2"
+  spec.swift_version = "5.0"
 
   #  When using multiple platforms
   # spec.ios.deployment_target = "5.0"
@@ -134,6 +134,6 @@ Pod::Spec.new do |spec|
   spec.requires_arc = true
 
   spec.xcconfig = { "HEADER_SEARCH_PATHS" => "${SDK_DIR}/usr/include/libxml2" }
-  spec.dependency "JSONValue", "0.0.3"
+  spec.dependency "JSONValue", "0.0.5"
 
 end
