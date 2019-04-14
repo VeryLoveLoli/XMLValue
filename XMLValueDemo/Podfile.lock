@@ -1,7 +1,7 @@
 PODS:
-  - JSONValue (0.0.3)
-  - XMLValue (0.0.3):
-    - JSONValue (= 0.0.3)
+  - JSONValue (0.0.5)
+  - XMLValue (0.0.5):
+    - JSONValue (= 0.0.5)
 
 DEPENDENCIES:
   - XMLValue
@@ -12,9 +12,9 @@ SPEC REPOS:
     - XMLValue
 
 SPEC CHECKSUMS:
-  JSONValue: 0007b6a326b2c27027681fc8c5df47b2e829a053
-  XMLValue: cd001480bf780d0719fbf388171caf9bd7ecd226
+  JSONValue: 2b2ae1ffeb34f53ce69af7d55477ed8e371b99eb
+  XMLValue: 9abf01e4c695e83239a90aee1f30b4435cdc5d28
 
 PODFILE CHECKSUM: f0c67c20c010529f5f2112e138fbd899b3f83b00
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.6.1

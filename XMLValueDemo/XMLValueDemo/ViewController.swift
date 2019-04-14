@@ -31,15 +31,13 @@ class ViewController: UIViewController {
             let xmlData = html.xmlData()
             
             /// 解析XML数据 转化成 JSONValue
-            JSONXMLParser.xml(xmlData) { (json, error) in
-                
-                /// JSON值 XML方式取值
-                let xml = XMLValue.init(json)
-                /// 获取第一个 head 节点
-                let head = xml.getOne("head")
-                /// 输出 head 节点 第一个 子节点的属性
-                print(head.elements[0].attributes)
-            }
+            let xmljson = try JSONXMLParser.xml(xmlData)
+            /// JSON值 XML方式取值
+            let xml = XMLValue.init(xmljson)
+            /// 获取第一个 head 节点
+            let head = xml.getOne("head")
+            /// 输出 head 节点 第一个 子节点的属性
+            head.elements[0].attributes.formatPrint()
             
         } catch  {
             /// 错误信息
