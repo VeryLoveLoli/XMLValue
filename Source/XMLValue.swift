@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import JSONValue
 
 // MARK:- String
 
@@ -60,7 +59,7 @@ public class XMLValue {
         
         var isMatching = false
         
-        if self.name.string == name {
+        if self.name.number.string == name {
             
             if let parames = attributes {
                 
@@ -68,7 +67,7 @@ public class XMLValue {
                 
                 for (key, value) in parames {
                     
-                    if self.JSON[JSONXMLKEY.attributes.string][key].string != JSONValue(value).string {
+                    if self.JSON[JSONXMLKEY.attributes.string][key].number.string != JSONValue(value).number.string {
                         
                         bool = false
                         break
@@ -221,6 +220,8 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
     
     /// 节点数组
     var keys: [String] = []
+    /// 节点元素数量字典
+    var elementNumber: [String: Int] = [:]
     /// JSON 数据
     var JSON = JSONValue()
     /// 当前节点路径
@@ -284,7 +285,7 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
      */
     public func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         
-        elementPath = createNextPath()
+        createNextPath()
         
         JSON[elementPath + [JSONXMLKEY.name.string]] = JSONValue(elementName)
         
@@ -344,13 +345,17 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
             
             if JSON[elementPath + [JSONXMLKEY.elements.string]].array.count > 0 {
                 
-                let path = createNextPath()
-                JSON[path + [JSONXMLKEY.name.string]] = JSONValue("content")
-                JSON[path + [JSONXMLKEY.content.string]] = JSONValue(content)
+                createNextPath()
+                
+                JSON[elementPath + [JSONXMLKEY.name.string]] = JSONValue(JSONXMLKEY.content.string)
+                JSON[elementPath + [JSONXMLKEY.content.string]] = JSONValue(content)
+                
+                elementPath.removeLast()
+                elementPath.removeLast()
             }
             else {
                 
-                JSON[elementPath + [JSONXMLKEY.content.string]] = JSONValue(JSON[elementPath + [JSONXMLKEY.content.string]].string + content)
+                JSON[elementPath + [JSONXMLKEY.content.string]] = JSONValue(JSON[elementPath + [JSONXMLKEY.content.string]].number.string + content)
             }
         }
     }
@@ -447,9 +452,15 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
      */
     public func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         
+        elementNumber[keys.joined(separator: "-")] = 0
+        
         keys.removeLast()
         
-        elementPath = getCurrentPath()
+        if elementPath.count > 1 {
+            
+            elementPath.removeLast()
+            elementPath.removeLast()
+        }
     }
     
     /**
@@ -464,47 +475,17 @@ public class JSONXMLParser: NSObject, XMLParserDelegate {
     /**
      创建下一个节点路径
      */
-    public func createNextPath() -> [Any] {
+    public func createNextPath() {
         
-        var path: [Any] = []
-        
-        for i in 0..<keys.count {
+        if keys.count != 0 {
             
-            path.append(JSONXMLKEY.elements.string)
+            elementPath.append(JSONXMLKEY.elements.string)
             
-            if i == keys.count - 1 {
-                
-                path.append(JSON[path].array.count)
-            }
-            else  {
-                
-                path.append(JSON[path].array.count - 1)
-            }
+            let key = keys.joined(separator: "-")
+            let count = elementNumber[key] ?? 0
+            elementPath.append(count)
+            elementNumber[key] = count + 1
         }
-        
-        return path
-    }
-    
-    /**
-     获取当前节点路径
-     */
-    public func getCurrentPath() -> [Any] {
-        
-        var path: [Any] = []
-        
-        for i in 0..<keys.count {
-            
-            if i == keys.count - 1 {
-                
-            }
-            else  {
-                
-                path.append(JSONXMLKEY.elements.string)
-                path.append(JSON[path].array.count - 1)
-            }
-        }
-        
-        return path
     }
 }
 

@@ -16,7 +16,7 @@ use_frameworks!
 
 target 'MyApp' do
 
-    pod 'XMLValue', '0.0.5'
+    pod 'XMLValue', '0.0.6'
 end
 
 ```
