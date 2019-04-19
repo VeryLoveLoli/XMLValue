@@ -1,16 +1,16 @@
 PODS:
-  - JSONValue (0.0.6)
+  - JSONValue (0.0.7)
 
 DEPENDENCIES:
-  - JSONValue (= 0.0.6)
+  - JSONValue (= 0.0.7)
 
 SPEC REPOS:
   https://github.com/VeryLoveLoli/CocoaPodsSource.git:
     - JSONValue
 
 SPEC CHECKSUMS:
-  JSONValue: f0d2e3fb80f662e6fa5796f0634fa85b9876dafe
+  JSONValue: 9b6412b150fa60c7139de32f71550f984c4fdba4
 
-PODFILE CHECKSUM: 4d693da1e2569db9f0858d60b9311bc8a82e779e
+PODFILE CHECKSUM: c1a8c2673927ba47efe8cd4e2ebd1244b0fa38a5
 
 COCOAPODS: 1.6.1
