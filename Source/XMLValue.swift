@@ -621,7 +621,7 @@ public class HTMLDocument {
         
         var private_CFMutableDictionary = CFDictionaryCreateMutable(kCFAllocatorDefault, index, &keyCallBacks, &valueCallBacks)
         
-        self.xmlDocument?.pointee._private = UnsafeMutableRawPointer.init(mutating: &private_CFMutableDictionary)
+        self.xmlDocument?.pointee._private = UnsafeMutableRawPointer.init(mutating: &private_CFMutableDictionary)!
     }
     
     /**
