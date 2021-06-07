@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "JSONValue",
+        "repositoryURL": "https://gitee.com/cchsora/JSONValue",
+        "state": {
+          "branch": "master",
+          "revision": "859d8b5f8b2c429972eb25f815b552127f7a1773",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

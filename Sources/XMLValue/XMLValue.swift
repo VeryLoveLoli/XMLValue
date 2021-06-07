@@ -574,9 +574,9 @@ public class HTMLDocument {
             
         }, copyDescription: { (str) -> Unmanaged<CFString>? in
             
-            var cfStr = CFStringCreateWithCString(kCFAllocatorDefault, str?.assumingMemoryBound(to: Int8.self), CFStringBuiltInEncodings.UTF8.rawValue)
+            guard let cf = str else { return nil }
             
-            return Unmanaged<CFString>.fromOpaque(&cfStr)
+            return Unmanaged<CFString>.fromOpaque(cf)
             
         }, equal: { (str1, str2) -> DarwinBoolean in
             
@@ -619,9 +619,17 @@ public class HTMLDocument {
             return hash
         }
         
-        var private_CFMutableDictionary = CFDictionaryCreateMutable(kCFAllocatorDefault, index, &keyCallBacks, &valueCallBacks)
-        
-        self.xmlDocument?.pointee._private = UnsafeMutableRawPointer.init(mutating: &private_CFMutableDictionary)!
+        if let private_CFMutableDictionary = CFDictionaryCreateMutable(kCFAllocatorDefault, index, &keyCallBacks, &valueCallBacks) {
+            
+            var dict = private_CFMutableDictionary
+            
+            func _private(_ raw: UnsafeMutableRawPointer) {
+                
+                self.xmlDocument?.pointee._private = raw
+            }
+            
+            _private(&dict)
+        }
     }
     
     /**

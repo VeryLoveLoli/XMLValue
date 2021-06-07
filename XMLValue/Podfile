@@ -1,9 +1,0 @@
-source 'https://github.com/VeryLoveLoli/CocoaPodsSource.git'
-
-platform :ios, '10.0'
-use_frameworks!
-
-target 'XMLValue' do
-
-    pod 'JSONValue', '0.0.7'
-end
